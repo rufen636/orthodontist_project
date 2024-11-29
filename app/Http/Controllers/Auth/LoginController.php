@@ -11,4 +11,14 @@ class LoginController extends Controller
     {
         return view('auth.login');
     }
+
+    public function authenticate(Request $request)
+    {
+        $request->validate([
+            'login' => 'required',
+            'password' => 'required'
+        ]);
+        $selected_data = User::select('id', 'login', 'password');
+
+    }
 }
