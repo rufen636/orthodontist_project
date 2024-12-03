@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -18,7 +19,23 @@ class LoginController extends Controller
             'login' => 'required',
             'password' => 'required'
         ]);
-        $selected_data = User::select('id', 'login', 'password');
+        if (Auth::attempt(['login' => $request->login, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect()->route('main.profile');
+        }else {
+            // Если аутентификация не удалась, возвращаемся на страницу входа с ошибкой
+            return redirect()->back()->withErrors([
+                'login' => 'Неверный логин или пароль.',
+            ]);
+        }
+    }
 
+    public function logout(Request $request){
+        Auth::logout(); // Выход пользователя
+
+        $request->session()->invalidate(); // Очистка сессии
+        $request->session()->regenerateToken(); // Генерация нового CSRF-токена
+
+        return redirect('/'); // Перенаправление на главную страницу
     }
 }

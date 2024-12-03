@@ -46,6 +46,7 @@
                     </li>
                 </ul>
             </div>
+            @guest
             <div class="w-full space-y-2 gap-2 pt-6 pb-4 lg:pb-0 border-t items-center flex flex-col lg:flex-row lg:space-y-0 lg:w-fit lg:border-l lg:border-t-0 lg:pt-0 lg:pl-2">
                 <form action="{{route('main.login')}}" method="get">
                     @csrf
@@ -60,6 +61,7 @@
                 </button>
                 </form>
             </div>
+            @endguest
 {{--        <div class="flex items-center justify-between rounded-md px-6 py-3 card variant-soft">--}}
 {{--            <span class="text-title">&copy; tailus 2021 - Present</span>--}}
 {{--            <a href="#" class="text-sm text-body hover:text-primary-600 dark:hover:text-primary-500">Licence</a>--}}
