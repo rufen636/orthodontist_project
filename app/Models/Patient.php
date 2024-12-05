@@ -8,8 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Patient extends Model
 {
 
-    public function user(): HasMany
+    protected $fillable = [
+        'fullName'
+    ];
+
+    public function user()
     {
-    return $this->hasMany(User::class);
+    return $this->belongsTo(User::class,'user_id','id');
     }
 }

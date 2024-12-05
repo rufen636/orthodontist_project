@@ -17,7 +17,10 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
+            $table->unsignedBigInteger('user_id')->nullable();
 
+            $table->index('user_id', 'patients_user_idx');
+            $table->foreign('user_id','patient_user_fk')->references('id')->on('users');
         });
     }
 

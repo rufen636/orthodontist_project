@@ -23,7 +23,11 @@ class User extends Authenticatable
     protected $fillable = [
         'login',
         'password',
-        'confirm_password',
+        'password_not_hashed',
+        'fullName',
+        'phone',
+        'email',
+        'city'
     ];
 
     /**
@@ -49,8 +53,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function patients(): BelongsTo
+    public function patients()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->hasMany(Patient::class,'user_id','id');
     }
 }

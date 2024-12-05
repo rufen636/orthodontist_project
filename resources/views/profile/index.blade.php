@@ -5,26 +5,28 @@
     <div class="bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl w-full">
         <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">ЛИЧНЫЙ КАБИНЕТ</h1>
-        <form action="#" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form action="{{route('update.profile')}}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Левая колонка -->
+            @csrf
+            @method('PATCH')
             <div class="space-y-4">
                 <!-- ФИО -->
                 <div>
                     <label for="fullName" class="block text-gray-400 text-sm">ФИО</label>
-                    <input type="text" id="fullName" name="fullName" value="Иван Иванов"
+                    <input type="text" id="fullName" name="fullName" value="{{$user->fullName}}"
                            class="w-full text-lg font-medium text-gray-800 border-b border-gray-300 focus:outline-none focus:border-blue-500 pb-1">
                 </div>
                 <!-- Город -->
                 <div>
                     <label for="city" class="block text-gray-400 text-sm">Город</label>
-                    <input type="text" id="city" name="city" value="Минск"
+                    <input type="text" id="city" name="city" value="{{$user->city}}"
                            class="w-full text-lg font-medium text-gray-800 border-b border-gray-300 focus:outline-none focus:border-blue-500 pb-1">
                 </div>
                 <!-- Пароль -->
                 <div>
                     <label for="password" class="block text-gray-400 text-sm">Пароль</label>
                     <div class="flex items-center gap-4">
-                        <input type="password" id="password" name="password" value="password123" disabled
+                        <input type="password" id="password" name="password" value="{{$user->password_not_hashed}}" disabled
                                class="w-full text-lg font-medium text-gray-800 border-b border-gray-300 focus:outline-none focus:border-blue-500 pb-1">
                         <button type="button" id="editPasswordBtn"
                                 class="text-blue-500 hover:underline font-medium">Изменить</button>
@@ -37,13 +39,13 @@
                 <!-- Электронная почта -->
                 <div>
                     <label for="email" class="block text-gray-400 text-sm">Электронная почта</label>
-                    <input type="email" id="email" name="email" value="rufen77777@mail.ru"
+                    <input type="email" id="email" name="email" value="{{$user->email}}"
                            class="w-full text-lg font-medium text-gray-800 border-b border-gray-300 focus:outline-none focus:border-blue-500 pb-1">
                 </div>
                 <!-- Телефон -->
                 <div>
                     <label for="phone" class="block text-gray-400 text-sm">Номер телефона</label>
-                    <input type="tel" id="phone" name="phone" value="+375342123312"
+                    <input type="tel" id="phone" name="phone" value="{{$user->phone}}"
                            class="w-full text-lg font-medium text-gray-800 border-b border-gray-300 focus:outline-none focus:border-blue-500 pb-1">
                 </div>
             </div>

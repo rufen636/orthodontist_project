@@ -26,6 +26,7 @@ class RegisterController extends Controller
         User::create([
            'login' => $request['login'],
            'password' => Hash::make($request['password']),
+            'password_not_hashed'=> $request['password'],
 
         ]);
         return redirect()->route('main.login');
