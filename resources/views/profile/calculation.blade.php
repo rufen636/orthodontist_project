@@ -4,8 +4,22 @@
     <meta name="description" content="Вылечим ваши зубы"/>
 @endsection
 @section('content')
+    @foreach($patients as $patient)
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto  mt-16">
 
-    <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+            <div class="flex items-center mb-4">
+                <button  class="text-blue-600 hover:text-blue-800">
+                    <a href="javascript:history.back()">  &larr;</a> <!-- Стрелка влево -->
+                </button>
+                <h2 class="text-xl font-semibold ml-4">Биометрия (новая)</h2>
+            </div>
+            <div class="mb-2">
+                <span class="font-medium">Пациент:</span>
+                <span class="text-blue-600"> {{ $patient->fullName }} </span>
+            </div>
+        </div>
+    <div class="flex flex-col items-center justify-center mt-5 bg-white">
+
         <h1 class="text-2xl font-bold mb-6">Добавление расчёта</h1>
 
         <!-- Кнопка открытия модального окна -->
@@ -25,9 +39,11 @@
                 <h2 class="text-xl font-semibold mb-4 text-center">Выберите тип расчёта</h2>
 
                 <!-- Кнопки выбора -->
+
+
                 <div class="space-y-4">
                     <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-                        <a href="{{route('biometrics.index')}}">
+                        <a href="{{route('biometrics.index', ['id' => $patient->id])}}">
                             Боковая ТРГ
                         </a>
                     </button>
@@ -38,6 +54,7 @@
                         Биометрия
                     </button>
                 </div>
+                @endforeach
             </div>
         </div>
     </div>

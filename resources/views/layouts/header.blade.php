@@ -1,5 +1,5 @@
 <header id="header" class="group">
-    <nav class="fixed overflow-hidden z-20 w-full border-b bg-white/50  backdrop-blur-2xl">
+    <nav class="fixed overflow-hidden z-20 w-full border-b bg-white  backdrop-blur-2xl">
         <div class="px-6 m-auto max-w-6xl 2xl:px-0">
             <div class="flex flex-wrap items-center justify-between py-2 sm:py-4">
                 <div class="w-full items-center flex justify-between lg:w-auto">

@@ -22,4 +22,5 @@ Route::delete('/patients/{id}/delete',[\App\Http\Controllers\Profile\PatientCont
 //Route::get('/patients/{id}/',[\App\Http\Controllers\Profile\PatientController::class,'create'])->name('main.patients.edit')->middleware('auth');
 Route::get('/patients/{id}/calculate',[\App\Http\Controllers\Profile\CalculateController::class,'index'])->name('patients.calculate')->middleware('auth');
 
-Route::get('/patients/calculate/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'index'])->name('biometrics.index')->middleware('auth');
+Route::get('/patients/{id}/calculate/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'index'])->name('biometrics.index')->middleware('auth');
+Route::post('/patients/{id}/calculate/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'calculate'])->name('biometrics.calculate')->middleware('auth');

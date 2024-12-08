@@ -5,6 +5,9 @@
     <div class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
         <div class="bg-white rounded-lg shadow-lg p-6 max-w-5xl w-full">
             <div class="flex justify-between items-center mb-6">
+                <button  class="text-blue-600 hover:text-blue-800">
+                    <a href="javascript:history.back()">  &larr;</a> <!-- Стрелка влево -->
+                </button>
                 <h1 class="text-3xl font-bold text-gray-800">ПАЦИЕНТЫ</h1>
                 <div class="space-x-4">
                     {{--                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">Скачать--}}
