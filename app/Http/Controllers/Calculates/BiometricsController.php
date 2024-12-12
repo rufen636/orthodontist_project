@@ -19,46 +19,7 @@ class BiometricsController extends Controller
     {
         $userId = auth()->id();
         $patients = Patient::where('user_id', $userId)->get();
-//        $validatedData = $request->validate([
-//            'tooth1' => 'required|integer',
-//            'tooth2' => 'required|integer',
-//            'tooth3' => 'required|integer',
-//            'tooth4' => 'required|integer',
-//            'tooth5' => 'required|integer',
-//            'tooth6' => 'required|integer',
-//            'tooth7' => 'required|integer',
-//            'tooth8' => 'required|integer',
-//            'tooth9' => 'required|integer',
-//            'tooth10' => 'required|integer',
-//            'tooth11' => 'required|integer',
-//            'tooth12' => 'required|integer',
-//            'tooth13' => 'required|integer',
-//            'tooth14' => 'required|integer',
-//            'tooth15' => 'required|integer',
-//            'tooth16' => 'required|integer',
-//            'tooth17' => 'required|integer',
-//            'tooth18' => 'required|integer',
-//            'tooth19' => 'required|integer',
-//            'tooth20' => 'required|integer',
-//            'tooth21' => 'required|integer',
-//            'tooth22' => 'required|integer',
-//            'tooth23' => 'required|integer',
-//            'tooth24' => 'required|integer',
-//            'row_width1' => 'required|integer',
-//            'row_width2' => 'required|integer',
-//            'row_width3' => 'required|integer',
-//            'row_width4' => 'required|integer',
-//            'leading_edge_length1' => 'required|integer',
-//            'leading_edge_length2'=> 'required|integer',
-//            'location_for_canine1'=> 'required|integer',
-//            'location_for_canine2'=> 'required|integer',
-//            'location_for_canine3'=> 'required|integer',
-//            'location_for_canine4'=> 'required|integer',
-//            'segment1' => 'required|integer',
-//            'segment2' => 'required|integer',
-//            'segment3' => 'required|integer',
-//            'segment4' => 'required|integer',
-//        ]);
+//
         // Пример расчета Индекса Тона
         // Извлечение данных из запроса
 
@@ -72,14 +33,52 @@ class BiometricsController extends Controller
             $toothSumDown += $request['tooth' . $i];
         }
 
-        // Расчет Индекса Тона (предположим, что это просто как пример)
+        // Расчет Индекса Тона
         $tonIndex = $this->calculateTonIndex($toothSumUp,$toothSumDown);
+        $sumUpper = 0;
+        for ($i = 5; $i <= 8; $i++) {
+            $sumUpper += $request['tooth' . $i];
+        }
+        $sumLower =0;
+        for ($i = 17; $i <= 20; $i++) {
+            $sumLower += $request['tooth' . $i];
+        }
+        $normUpper = $sumUpper * 1.33;
+        $normLower = $sumLower * 1.29;
+        $deltaUpper = $sumUpper - $normUpper;
+        $deltaLower = $sumLower - $normLower;
+
+        $adjustmentUpper = null;
+        if ($deltaUpper > 0) {
+            // Сепарация
+            $adjustmentUpper = $deltaUpper; // Суммарная корректировка
+
+        } elseif ($deltaUpper < 0) {
+            // Реставрация
+            $adjustmentUpper =  abs($deltaUpper);// Суммарная корректировка
+
+        } else {
+            $adjustmentUpper = 0;
+        }
+
+// Проверяем нижние резцы
+        $adjustmentLower = null;
+        if ($deltaLower > 0) {
+            // Сепарация
+            $adjustmentLower =  $deltaLower; // Суммарная корректировка
+
+        } elseif ($deltaLower < 0) {
+            // Реставрация
+            $adjustmentLower = abs($deltaLower);
+        } else {
+            $adjustmentLower = 0;
+        }
 
         // Расчет ширины зубного ряда для Пона
-        $pon1 = $request['row_width1'];
-        $pon2 = $request['row_width2'];
-        $pon3 = $request['row_width3'];
-        $pon4 = $request['row_width4'];
+        $pon1 = $request['premolarUp'];
+        $pon2 = $request['molarUp'];
+        $pon3 = $request['molarDown'];
+        $pon4 = $request['premolarUp'];
 
         // Пример вычисления дефицита по Пону
         $ponWidth = $this->calculatePonWidth($pon1, $pon2, $pon3, $pon4);
@@ -113,13 +112,13 @@ class BiometricsController extends Controller
         session()->flash('tanakaAnalysis', $tanakaAnalysis);
 
         // Возвращаем результаты в представление
-        return view('calculates.biometrics',compact('tonIndex','ponWidth','corhausAnalysis','gerlachAnalysis','tanakaAnalysis','patients'));
+        return view('calculates.biometrics',compact('tonIndex','ponWidth','corhausAnalysis','gerlachAnalysis','tanakaAnalysis','patients','adjustmentUpper','adjustmentLower'));
     }
 
     // Метод для расчета Индекса Тона
     private function calculateTonIndex($toothSumUp,$toothSumDown)
     {
-        $result = $toothSumDown  / $toothSumUp;
+        $result = $toothSumUp  / $toothSumDown;
         return $result; // Примерное значение
     }
 
@@ -167,5 +166,9 @@ class BiometricsController extends Controller
             'segment3' => $segment3 - 10.5,
             'segment4' => $segment4 - 10.5
         ];
+    }
+    public function create(Request $request)
+    {
+
     }
 }

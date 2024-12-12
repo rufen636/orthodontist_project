@@ -127,16 +127,16 @@
                      style="background-image: url('{{ asset('images/biometrics/teeth2.jpg') }}')">
                     <input type="number"
                            class="  absolute bottom-[30%] left-[20%] w-[10%]  sm:w-[6%] md:w-[5%]  border rounded bg-white p-2"
-                           placeholder="12" name="row_width1" required>
+                           placeholder="12" name="premolarUp" required>
                     <input type="number"
                            class="  absolute bottom-[50%] left-[20%] w-[10%] sm:w-[6%] md:w-[5%]  border rounded bg-white p-2"
-                           placeholder="12" name="row_width2" required>
+                           placeholder="12" name="molarUp" required>
                     <input type="number"
                            class="  absolute top-[27%] left-[75%] w-[10%] sm:w-[6%] md:w-[5%]  border rounded bg-white p-2"
-                           placeholder="12" name="row_width3" required>
+                           placeholder="12" name="molarDown" required>
                     <input type="number"
                            class="  absolute top-[47%] left-[75%] w-[10%] sm:w-[6%] md:w-[5%]  border rounded bg-white p-2"
-                           placeholder="12" name="row_width4" required>
+                           placeholder="12" name="premolarUp" required>
                 </div>
             </div>
         </div>
@@ -235,6 +235,16 @@
             <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h3 class="text-xl font-medium text-gray-700">Индекс Тона:</h3>
                 <p class="text-lg text-gray-900">{{ $tonIndex }}</p>
+                <div class="text-gray-800 text-lg font-medium">
+                    Необходима либо реставрация верхних резцов на
+                    <span class="text-blue-600">
+        {{ $adjustmentUpper }} мм
+    </span>, либо сепарация нижних резцов на
+                    <span class="text-green-600">
+        {{ $adjustmentLower}} мм
+    </span>
+                </div>
+
             </div>
 
             <!-- Ширина зубного ряда (Пон) -->

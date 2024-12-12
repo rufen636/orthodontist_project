@@ -24,3 +24,4 @@ Route::get('/patients/{id}/calculate',[\App\Http\Controllers\Profile\CalculateCo
 
 Route::get('/patients/{id}/calculate/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'index'])->name('biometrics.index')->middleware('auth');
 Route::post('/patients/{id}/calculate/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'calculate'])->name('biometrics.calculate')->middleware('auth');
+Route::post('/patients/{id}/calculate/biometrics/create',[\App\Http\Controllers\Calculates\BiometricsController::class,'create'])->name('biometrics.create')->middleware('auth');
