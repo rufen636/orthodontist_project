@@ -10,6 +10,10 @@ class LoginController extends Controller
 {
     public function index()
     {
+        if (auth()->check()) {
+            // Если пользователь авторизован, редиректим на страницу профиля
+            return redirect()->route('main.profile'); // Замените 'profile' на ваш маршрут для профиля
+        }
         return view('auth.login');
     }
 
