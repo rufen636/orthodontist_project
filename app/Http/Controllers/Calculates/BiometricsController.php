@@ -15,8 +15,11 @@ class BiometricsController extends Controller
         $patient = Patient::where('id', $id)
             ->where('user_id', $userId)
             ->firstOrFail();
-        $biometrics = Biometrics::where('patient_id', $patient->id)->first();
-        return view('calculates.biometrics', compact( 'biometrics','patient'));
+
+        // Используем метод связи
+        $biometrics = $patient->biometrics()->first();
+
+        return view('calculates.biometrics', compact( 'patient', 'biometrics'));
     }
 
     public function calculate(Request $request,$id)
@@ -136,9 +139,16 @@ class BiometricsController extends Controller
         } else {
             dd('Текущий пациент не установлен');
         }
+        $userId = auth()->id();
+        $patient = Patient::where('id', $id)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
+        // Используем метод связи
+        $biometrics = $patient->biometrics()->first();
 
         // Возвращаем результаты в представление
-        return view('calculates.biometrics',compact('tonIndex','ponWidth','corhausAnalysis','gerlachAnalysis','tanakaAnalysis','patient','adjustmentUpper','adjustmentLower'));
+        return view('calculates.biometrics',compact('tonIndex','biometrics','ponWidth','corhausAnalysis','gerlachAnalysis','tanakaAnalysis','patient','adjustmentUpper','adjustmentLower'));
     }
 
     // Метод для расчета Индекса Тона
@@ -195,8 +205,12 @@ class BiometricsController extends Controller
     }
     public function show($id)
     {
+        $userId = auth()->id();
+        $patient = Patient::where('id', $id)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+        $biometrics = $patient->biometrics()->first();
 
-
-        return view('calculates.biometrics');
+        return view('calculates.biometrics',compact('biometrics','patient'));
     }
 }

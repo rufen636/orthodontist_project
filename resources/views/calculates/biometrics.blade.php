@@ -227,7 +227,8 @@
             </button>
         </div>
     </form>
-    @if($biometrics)
+
+    @if(isset($biometrics) && $biometrics)
 
         <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-6">
             <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Результаты вычислений</h2>
@@ -289,6 +290,14 @@
 {{--                </ul>--}}
 {{--            </div>--}}
         </div>
-    @endif
 
+        @else
+        <div class="flex items-center justify-center mt-8 p-6 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 9v6m0 0l3-3m-3 3l-3-3"></path>
+                <path d="M5 12a7 7 0 1 1 14 0 7 7 0 0 1-14 0"></path>
+            </svg>
+            <span class="text-lg font-semibold">Биометрия не найдена для этого пациента.</span>
+        </div>
+        @endif
 @endsection
