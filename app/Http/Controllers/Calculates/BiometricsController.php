@@ -134,7 +134,7 @@ class BiometricsController extends Controller
                 'ponWidth_44_34' => $ponWidth['44-34'],
                 'ponWidth_46_36' => $ponWidth['46-36'],
                 'user_id' => auth()->id(), // Текущий пользователь
-                'patient_id' => $currentPatientId // ID текущего пациента
+                'patient_id' => $id // ID текущего пациента
             ]);
         } else {
             dd('Текущий пациент не установлен');
