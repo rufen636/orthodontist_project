@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $userId = auth()->id();
         $patients = Patient::where('user_id', $userId)->get();
-        return view('profile.patients',compact('patients'));
+
+        $request->session()->regenerate();
+
+        return view('profile.patients',compact('patients',));
     }
 
     public function create(Request $request){
@@ -30,8 +33,10 @@ class PatientController extends Controller
     }
 
     public function delete(Request $id){
-        // Проверяем, существует ли пациент
         $patient = Patient::findOrFail($id->id);
+
+        // Удаляем связанные биометрические данные
+        $patient->biometrics()->delete();
 
         // Удаляем пациента
         $patient->delete();

@@ -16,4 +16,8 @@ class Patient extends Model
     {
     return $this->belongsTo(User::class,'user_id','id');
     }
+    public function biometrics()
+    {
+        return $this->hasOne(Biometrics::class,'patient_id','id');
+    }
 }

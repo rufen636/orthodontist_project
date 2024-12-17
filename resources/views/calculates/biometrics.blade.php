@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto  mt-16">
-        @foreach($patients as $patient)
+
             <div class="flex items-center mb-4">
                 <button  class="text-blue-600 hover:text-blue-800">
                    <a href="javascript:history.back()">  &larr;</a> <!-- Стрелка влево -->
@@ -227,21 +227,22 @@
             </button>
         </div>
     </form>
-    @if (session('form_submitted'))
+    @if($biometrics)
+
         <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-6">
             <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Результаты вычислений</h2>
 
             <!-- Индекс Тона -->
             <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h3 class="text-xl font-medium text-gray-700">Индекс Тона:</h3>
-                <p class="text-lg text-gray-900">{{ $tonIndex }}</p>
+                <p class="text-lg text-gray-900">{{ $biometrics->tonIndex }}</p>
                 <div class="text-gray-800 text-lg font-medium">
                     Необходима либо реставрация верхних резцов на
                     <span class="text-blue-600">
-        {{ $adjustmentUpper }} мм
+        {{ $biometrics->adjustmentUpper }} мм
     </span>, либо сепарация нижних резцов на
                     <span class="text-green-600">
-        {{ $adjustmentLower}} мм
+        {{$biometrics->adjustmentLower}} мм
     </span>
                 </div>
 
@@ -251,48 +252,43 @@
             <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
                 <h3 class="text-xl font-medium text-gray-700">Ширина зубного ряда (Пон):</h3>
                 <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">
-                    <li>14-24: {{ $ponWidth['14-24'] }} мм</li>
-                    <li>16-26: {{ $ponWidth['16-26'] }} мм</li>
-                    <li>44-34: {{ $ponWidth['44-34'] }} мм</li>
-                    <li>46-36: {{ $ponWidth['46-36'] }} мм</li>
+                    <li>14-24: {{ $biometrics->ponWidth_14_24 }} мм</li>
+                    <li>16-26: {{ $biometrics->ponWidth_16_26}} мм</li>
+                    <li>44-34: {{ $biometrics->ponWidth_44_34 }} мм</li>
+                    <li>46-36: {{ $biometrics->ponWidth_46_36}} мм</li>
                 </ul>
             </div>
 
-            <!-- Анализ по Коркхаузу -->
-            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h3 class="text-xl font-medium text-gray-700">Анализ по Коркхаузу:</h3>
-                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">
-                    <li>Длина переднего отрезка верхней челюсти: {{ $corhausAnalysis['upper'] }} мм</li>
-                    <li>Длина переднего отрезка нижней челюсти: {{ $corhausAnalysis['lower'] }} мм</li>
-                </ul>
-            </div>
+{{--            <!-- Анализ по Коркхаузу -->--}}
+{{--            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">--}}
+{{--                <h3 class="text-xl font-medium text-gray-700">Анализ по Коркхаузу:</h3>--}}
+{{--                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">--}}
+{{--                    <li>Длина переднего отрезка верхней челюсти: {{ $biometric->corhausAnalysis['upper'] }} мм</li>--}}
+{{--                    <li>Длина переднего отрезка нижней челюсти: {{ $biometric->corhausAnalysis['lower'] }} мм</li>--}}
+{{--                </ul>--}}
+{{--            </div>--}}
 
-            <!-- Соотношение по Герлаху -->
-            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h3 class="text-xl font-medium text-gray-700">Соотношение по Герлаху:</h3>
-                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">
-                    @foreach ($gerlachAnalysis as $key => $value)
-                        <li>{{ ucfirst($key) }}: {{ $value }} мм</li>
-                    @endforeach
-                </ul>
-            </div>
+{{--            <!-- Соотношение по Герлаху -->--}}
+{{--            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">--}}
+{{--                <h3 class="text-xl font-medium text-gray-700">Соотношение по Герлаху:</h3>--}}
+{{--                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">--}}
+{{--                    @foreach ($gerlachAnalysis as $key => $value)--}}
+{{--                        <li>{{ ucfirst($key) }}: {{ $value }} мм</li>--}}
+{{--                    @endforeach--}}
+{{--                </ul>--}}
+{{--            </div>--}}
 
             <!-- Анализ по Tanaka-Johnston -->
-            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
-                <h3 class="text-xl font-medium text-gray-700">Анализ по Tanaka-Johnston:</h3>
-                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">
-                    <li>Сегмент 1: {{ $tanakaAnalysis['segment1'] }} мм</li>
-                    <li>Сегмент 2: {{ $tanakaAnalysis['segment2'] }} мм</li>
-                    <li>Сегмент 3: {{ $tanakaAnalysis['segment3'] }} мм</li>
-                    <li>Сегмент 4: {{ $tanakaAnalysis['segment4'] }} мм</li>
-                </ul>
-            </div>
-        </div>
-    @else
-        <div class="container mx-auto p-6">
-            <p class="text-xl text-center text-gray-700">Пожалуйста, отправьте форму для получения результатов.</p>
+{{--            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">--}}
+{{--                <h3 class="text-xl font-medium text-gray-700">Анализ по Tanaka-Johnston:</h3>--}}
+{{--                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">--}}
+{{--                    <li>Сегмент 1: {{ $biometrics->tanakaAnalysis['segment1'] }} мм</li>--}}
+{{--                    <li>Сегмент 2: {{ $biometrics->tanakaAnalysis['segment2'] }} мм</li>--}}
+{{--                    <li>Сегмент 3: {{ $biometrics->tanakaAnalysis['segment3'] }} мм</li>--}}
+{{--                    <li>Сегмент 4: {{ $biometrics->tanakaAnalysis['segment4'] }} мм</li>--}}
+{{--                </ul>--}}
+{{--            </div>--}}
         </div>
     @endif
 
-    @endforeach
 @endsection

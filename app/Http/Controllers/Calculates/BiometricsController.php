@@ -3,23 +3,37 @@
 namespace App\Http\Controllers\Calculates;
 
 use App\Http\Controllers\Controller;
+use App\Models\Biometrics;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class BiometricsController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $userId = auth()->id();
-        $patients = Patient::where('user_id', $userId)->get();
-        return view('calculates.biometrics', compact('patients'));
+        $patient = Patient::where('id', $id)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+        $biometrics = Biometrics::where('patient_id', $patient->id)->first();
+        return view('calculates.biometrics', compact( 'biometrics','patient'));
     }
 
-    public function calculate(Request $request)
+    public function calculate(Request $request,$id)
     {
         $userId = auth()->id();
-        $patients = Patient::where('user_id', $userId)->get();
-//
+        $patient = Patient::where('id', $id)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+        $currentPatient = Patient::where('user_id', auth()->id())->first();
+
+        if ($currentPatient) {
+            session(['current_patient_id' => $currentPatient->id]); // Сохраняем ID пациента в сессию
+        } else {
+            dd('Пациент не найден');
+        }
+
+
         // Пример расчета Индекса Тона
         // Извлечение данных из запроса
 
@@ -80,8 +94,10 @@ class BiometricsController extends Controller
         $pon3 = $request['molarDown'];
         $pon4 = $request['premolarUp'];
 
+        $frontWidth =$sumUpper*100/80;
+        $backWidth =$sumUpper*100/64;
         // Пример вычисления дефицита по Пону
-        $ponWidth = $this->calculatePonWidth($pon1, $pon2, $pon3, $pon4);
+        $ponWidth = $this->calculatePonWidth($pon1, $pon2, $pon3, $pon4,$frontWidth,$backWidth);
 
         // Расчет длины переднего отрезка по Коркхаузу
         $leadingEdge1 = $request['leading_edge_length1'];
@@ -103,16 +119,26 @@ class BiometricsController extends Controller
         $segment4 =$request['segment4'];
             // Анализ по Tanaka-Johnston (например, предполагаемая ширина моляров)
         $tanakaAnalysis = $this->calculateTanakaJohnston($segment1, $segment2, $segment3,$segment4);
-        session()->flash('form_submitted', true);
+        $currentPatientId = session('current_patient_id');
 
-        session()->flash('tonIndex', $tonIndex);
-        session()->flash('ponWidth', $ponWidth);
-        session()->flash('corhausAnalysis', $corhausAnalysis);
-        session()->flash('gerlachAnalysis', $gerlachAnalysis);
-        session()->flash('tanakaAnalysis', $tanakaAnalysis);
+        if ($currentPatientId) {
+            Biometrics::updateOrCreate([
+                'tonIndex' => $tonIndex,
+                'adjustmentUpper' => $adjustmentUpper,
+                'adjustmentLower' => $adjustmentLower,
+                'ponWidth_14_24' => $ponWidth['14-24'],
+                'ponWidth_16_26' => $ponWidth['16-26'],
+                'ponWidth_44_34' => $ponWidth['44-34'],
+                'ponWidth_46_36' => $ponWidth['46-36'],
+                'user_id' => auth()->id(), // Текущий пользователь
+                'patient_id' => $currentPatientId // ID текущего пациента
+            ]);
+        } else {
+            dd('Текущий пациент не установлен');
+        }
 
         // Возвращаем результаты в представление
-        return view('calculates.biometrics',compact('tonIndex','ponWidth','corhausAnalysis','gerlachAnalysis','tanakaAnalysis','patients','adjustmentUpper','adjustmentLower'));
+        return view('calculates.biometrics',compact('tonIndex','ponWidth','corhausAnalysis','gerlachAnalysis','tanakaAnalysis','patient','adjustmentUpper','adjustmentLower'));
     }
 
     // Метод для расчета Индекса Тона
@@ -123,14 +149,14 @@ class BiometricsController extends Controller
     }
 
     // Метод для расчета ширины зубного ряда по Пону
-    private function calculatePonWidth($pon1, $pon2, $pon3, $pon4)
+    private function calculatePonWidth($pon1, $pon2, $pon3, $pon4,$frontWidth,$backWidth)
     {
         // Пример расчета дефицита ширины
         return [
-            '14-24' => $pon1 - 5,
-            '16-26' => $pon2 - 6.25,
-            '44-34' => $pon3 - 5,
-            '46-36' => $pon4 - 6.25
+            '14-24' => $pon1 - $frontWidth,
+            '16-26' => $pon2 - $backWidth,
+            '44-34' => $pon3 - $frontWidth,
+            '46-36' => $pon4 - $backWidth
         ];
     }
 
@@ -167,8 +193,10 @@ class BiometricsController extends Controller
             'segment4' => $segment4 - 10.5
         ];
     }
-    public function create(Request $request)
+    public function show($id)
     {
 
+
+        return view('calculates.biometrics');
     }
 }

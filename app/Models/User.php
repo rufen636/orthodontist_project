@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Patient::class,'user_id','id');
     }
+    public function biometrics()
+    {
+        return $this->hasOne(Biometrics::class,'user_id','id');
+    }
+
 }

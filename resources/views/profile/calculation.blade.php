@@ -4,7 +4,7 @@
     <meta name="description" content="Вылечим ваши зубы"/>
 @endsection
 @section('content')
-    @foreach($patients as $patient)
+
         <div class="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto  mt-16">
 
             <div class="flex items-center mb-4">
@@ -21,12 +21,26 @@
     <div class="flex flex-col items-center justify-center mt-5 bg-white">
 
         <h1 class="text-2xl font-bold mb-6">Добавление расчёта</h1>
-
+       <div class="flex gap-5">
+           @if($patient->biometrics()->exists())
+           <div>
+               <button
+                       class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition">
+                   <a href="{{route('biometrics.index', ['id' => $patient->id])}}">
+                   Биометрия
+                   </a>
+               </button>
+           </div>
+           @endif
+           <div>
         <!-- Кнопка открытия модального окна -->
         <button id="open-modal-btn"
                 class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition">
             Добавить расчёт
         </button>
+
+       </div>
+    </div>
 
         <!-- Модальное окно -->
         <div id="modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
@@ -43,18 +57,18 @@
 
                 <div class="space-y-4">
                     <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-                        <a href="{{route('biometrics.index', ['id' => $patient->id])}}">
                             Боковая ТРГ
-                        </a>
+
                     </button>
                     <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
                         Планирование лечения
                     </button>
                     <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
+                        <a href="{{route('biometrics.index', ['id' => $patient->id])}}">
                         Биометрия
+                        </a>
                     </button>
                 </div>
-                @endforeach
             </div>
         </div>
     </div>

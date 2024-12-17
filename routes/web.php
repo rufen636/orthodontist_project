@@ -20,8 +20,8 @@ Route::patch('/patients/edit',[\App\Http\Controllers\Profile\PatientController::
 Route::delete('/patients/{id}/delete',[\App\Http\Controllers\Profile\PatientController::class,'delete'])->name('delete.patient')->middleware('auth');
 
 //Route::get('/patients/{id}/',[\App\Http\Controllers\Profile\PatientController::class,'create'])->name('main.patients.edit')->middleware('auth');
-Route::get('/patients/{id}/calculate',[\App\Http\Controllers\Profile\CalculateController::class,'index'])->name('patients.calculate')->middleware('auth');
+Route::get('/patients/calculate/{id}',[\App\Http\Controllers\Profile\CalculateController::class,'index'])->name('patients.calculate')->middleware('auth');
 
-Route::get('/patients/{id}/calculate/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'index'])->name('biometrics.index')->middleware('auth');
-Route::post('/patients/{id}/calculate/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'calculate'])->name('biometrics.calculate')->middleware('auth');
-Route::post('/patients/{id}/calculate/biometrics/create',[\App\Http\Controllers\Calculates\BiometricsController::class,'create'])->name('biometrics.create')->middleware('auth');
+Route::get('/patients/calculate/{id}/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'index'])->name('biometrics.index')->middleware('auth');
+Route::post('/patients/calculate/{id}/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'calculate'])->name('biometrics.calculate')->middleware('auth');
+Route::get('/patients/calculate/{id}/biometrics/show',[\App\Http\Controllers\Calculates\BiometricsController::class,'show'])->name('biometrics.show')->middleware('auth');
