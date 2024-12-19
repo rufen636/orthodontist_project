@@ -20,6 +20,12 @@ return new class extends Migration
             $table->float('ponWidth_16_26');
             $table->float('ponWidth_44_34');
             $table->float('ponWidth_46_36');
+            $table->float('leading_edge_length1');
+            $table->float('leading_edge_length2');
+            $table->float('segment1');
+            $table->float('segment2');
+            $table->float('segment3');
+            $table->float('segment4');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->softDeletes();

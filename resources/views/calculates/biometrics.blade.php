@@ -154,7 +154,7 @@
                      style="background-image: url('{{ asset('images/biometrics/teeth3.jpg') }}')">
                     <input type="number"
                            class="  absolute bottom-[60%] left-[22%] w-[10%] sm:w-[6%] md:w-[5%]  border rounded bg-white p-2"
-                           placeholder="12" name="leading_edge_length1 " required>
+                           placeholder="12" name="leading_edge_length1" required>
                     <input type="number"
                            class="  absolute bottom-[33%] left-[76%] w-[10%] sm:w-[6%] md:w-[5%]  border rounded bg-white p-2"
                            placeholder="12" name="leading_edge_length2" required>
@@ -260,14 +260,14 @@
                 </ul>
             </div>
 
-{{--            <!-- Анализ по Коркхаузу -->--}}
-{{--            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">--}}
-{{--                <h3 class="text-xl font-medium text-gray-700">Анализ по Коркхаузу:</h3>--}}
-{{--                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">--}}
-{{--                    <li>Длина переднего отрезка верхней челюсти: {{ $biometric->corhausAnalysis['upper'] }} мм</li>--}}
-{{--                    <li>Длина переднего отрезка нижней челюсти: {{ $biometric->corhausAnalysis['lower'] }} мм</li>--}}
-{{--                </ul>--}}
-{{--            </div>--}}
+            <!-- Анализ по Коркхаузу -->
+            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h3 class="text-xl font-medium text-gray-700">Анализ по Коркхаузу:</h3>
+                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">
+                    <li>Длина переднего отрезка верхней челюсти: {{ $biometrics->leading_edge_length1 }} мм</li>
+                    <li>Длина переднего отрезка нижней челюсти: {{ $biometrics->leading_edge_length2 }} мм</li>
+                </ul>
+            </div>
 
 {{--            <!-- Соотношение по Герлаху -->--}}
 {{--            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">--}}
@@ -280,15 +280,15 @@
 {{--            </div>--}}
 
             <!-- Анализ по Tanaka-Johnston -->
-{{--            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">--}}
-{{--                <h3 class="text-xl font-medium text-gray-700">Анализ по Tanaka-Johnston:</h3>--}}
-{{--                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">--}}
-{{--                    <li>Сегмент 1: {{ $biometrics->tanakaAnalysis['segment1'] }} мм</li>--}}
-{{--                    <li>Сегмент 2: {{ $biometrics->tanakaAnalysis['segment2'] }} мм</li>--}}
-{{--                    <li>Сегмент 3: {{ $biometrics->tanakaAnalysis['segment3'] }} мм</li>--}}
-{{--                    <li>Сегмент 4: {{ $biometrics->tanakaAnalysis['segment4'] }} мм</li>--}}
-{{--                </ul>--}}
-{{--            </div>--}}
+            <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h3 class="text-xl font-medium text-gray-700">Анализ по Tanaka-Johnston:</h3>
+                <ul class="list-disc pl-5 space-y-2 text-lg text-gray-800">
+                    <li>Сегмент 1: {{ $biometrics->segment1 }} мм</li>
+                    <li>Сегмент 2: {{ $biometrics->segment2 }} мм</li>
+                    <li>Сегмент 3: {{ $biometrics->segment3 }} мм</li>
+                    <li>Сегмент 4: {{ $biometrics->segment4 }} мм</li>
+                </ul>
+            </div>
         </div>
 
         @else

@@ -121,7 +121,7 @@ class BiometricsController extends Controller
         $segment3 =$request['segment3'];
         $segment4 =$request['segment4'];
             // Анализ по Tanaka-Johnston (например, предполагаемая ширина моляров)
-        $tanakaAnalysis = $this->calculateTanakaJohnston($segment1, $segment2, $segment3,$segment4);
+        $tanakaAnalysis = $this->calculateTanakaJohnston($sumLower, $sumUpper);
         $currentPatientId = session('current_patient_id');
 
         if ($currentPatientId) {
@@ -133,6 +133,12 @@ class BiometricsController extends Controller
                 'ponWidth_16_26' => $ponWidth['16-26'],
                 'ponWidth_44_34' => $ponWidth['44-34'],
                 'ponWidth_46_36' => $ponWidth['46-36'],
+                'leading_edge_length1'=> $corhausAnalysis['upper'],
+                'leading_edge_length2'=> $corhausAnalysis['lower'],
+                'segment1'=>$tanakaAnalysis['segment1'],
+                'segment2'=>$tanakaAnalysis['segment2'],
+                'segment3'=>$tanakaAnalysis['segment3'],
+                'segment4'=>$tanakaAnalysis['segment4'],
                 'user_id' => auth()->id(), // Текущий пользователь
                 'patient_id' => $id // ID текущего пациента
             ]);
@@ -173,34 +179,35 @@ class BiometricsController extends Controller
     // Метод для анализа Коркхауза
     private function calculateCorhausAnalysis($leadingEdge1, $leadingEdge2)
     {
-        // Пример расчета длины переднего отрезка
-        return [
-            'upper' => round($leadingEdge1 - 0.35, 2),
-            'lower' => round($leadingEdge2 + 1.65, 2)
-        ];
+        $leadingEdge = $leadingEdge1-$leadingEdge2;
+       if($leadingEdge == 2) {
+           return [
+               'upper' => $leadingEdge1,
+               'lower' => $leadingEdge2
+           ];
+       }else{
+           return[
+           'upper' => $leadingEdge1 * 0.9,
+           'lower' => $leadingEdge2 * 0.9
+           ];
+       }
     }
 
     // Метод для анализа Герлаха
     private function calculateGerlachAnalysis($segments)
     {
-        // Пример расчета по Герлаху
-        $result = [];
-        foreach ($segments as $key => $value) {
-            // Простое условие для примера
-            $result[$key] = $value - 0; // Могут быть другие расчеты в зависимости от условий
-        }
-        return $result;
+
     }
 
     // Метод для анализа по Tanaka-Johnston
-    private function calculateTanakaJohnston($segment1, $segment2, $segment3,$segment4)
+    private function calculateTanakaJohnston($sumLower, $sumUpper)
     {
         // Пример простого расчета для Tanaka-Johnston
         return [
-            'segment1' => $segment1 - 11,
-            'segment2' => $segment2 - 11,
-            'segment3' => $segment3 - 10.5,
-            'segment4' => $segment4 - 10.5
+            'segment1' => $sumLower ,
+            'segment2' => $sumLower + 10.5,
+            'segment3' => $sumUpper ,
+            'segment4' => $sumUpper + 11,
         ];
     }
     public function show($id)

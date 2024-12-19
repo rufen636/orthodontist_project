@@ -16,6 +16,12 @@ class Biometrics extends Model
         'ponWidth_46_36',
         'user_id',
         'patient_id',
+        'leading_edge_length1',
+        'leading_edge_length2',
+        'segment1',
+        'segment2',
+        'segment3',
+        'segment4',
     ];
 
 
