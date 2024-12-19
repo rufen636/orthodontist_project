@@ -63,11 +63,14 @@
                     <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
                         Планирование лечения
                     </button>
+                    @if(!$patient->biometrics()->exists())
                     <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
                         <a href="{{route('biometrics.index', ['id' => $patient->id])}}">
                         Биометрия
                         </a>
                     </button>
+                    @endif
+
                 </div>
             </div>
         </div>
