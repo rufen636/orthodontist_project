@@ -125,23 +125,27 @@ class BiometricsController extends Controller
         $currentPatientId = session('current_patient_id');
 
         if ($currentPatientId) {
-            Biometrics::updateOrCreate([
-                'tonIndex' => $tonIndex,
-                'adjustmentUpper' => $adjustmentUpper,
-                'adjustmentLower' => $adjustmentLower,
-                'ponWidth_14_24' => $ponWidth['14-24'],
-                'ponWidth_16_26' => $ponWidth['16-26'],
-                'ponWidth_44_34' => $ponWidth['44-34'],
-                'ponWidth_46_36' => $ponWidth['46-36'],
-                'leading_edge_length1'=> $corhausAnalysis['upper'],
-                'leading_edge_length2'=> $corhausAnalysis['lower'],
-                'segment1'=>$tanakaAnalysis['segment1'],
-                'segment2'=>$tanakaAnalysis['segment2'],
-                'segment3'=>$tanakaAnalysis['segment3'],
-                'segment4'=>$tanakaAnalysis['segment4'],
-                'user_id' => auth()->id(), // Текущий пользователь
-                'patient_id' => $id // ID текущего пациента
-            ]);
+            Biometrics::updateOrCreate(
+                [
+                    'user_id' => auth()->id(),
+                    'patient_id' => $id,
+                ],
+                // Значения для обновления или создания
+                [
+                    'tonIndex' => $tonIndex,
+                    'adjustmentUpper' => $adjustmentUpper,
+                    'adjustmentLower' => $adjustmentLower,
+                    'ponWidth_14_24' => $ponWidth['14-24'],
+                    'ponWidth_16_26' => $ponWidth['16-26'],
+                    'ponWidth_44_34' => $ponWidth['44-34'],
+                    'ponWidth_46_36' => $ponWidth['46-36'],
+                    'leading_edge_length1'=> $corhausAnalysis['upper'],
+                    'leading_edge_length2'=> $corhausAnalysis['lower'],
+                    'segment1' => $tanakaAnalysis['segment1'],
+                    'segment2' => $tanakaAnalysis['segment2'],
+                    'segment3' => $tanakaAnalysis['segment3'],
+                    'segment4' => $tanakaAnalysis['segment4'],
+                ]);
         } else {
             dd('Текущий пациент не установлен');
         }
