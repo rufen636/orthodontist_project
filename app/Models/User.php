@@ -61,5 +61,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Biometrics::class,'user_id','id');
     }
-
+    public function sidetwg()
+    {
+        return $this->hasOne(SideTWG::class,'user_id','id');
+    }
 }

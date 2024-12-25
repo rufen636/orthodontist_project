@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('side_twg', function (Blueprint $table) {
             $table->id();
+            $table->string('image_path');
+            $table->json('calculations')->nullable(); // Сохраняем расчеты в формате JSON
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('patient_id')->nullable();
             $table->timestamps();
+
+
+            $table->index('user_id', 'side_twg_user_idx');
+            $table->foreign('user_id','side_twg_user_fk')->references('id')->on('users')->onDelete('cascade');;
+            $table->index('patient_id', 'side_twg_patient_idx');
+            $table->foreign('patient_id','side_twg_patient_fk')->references('id')->on('patients')->onDelete('cascade');;
+
         });
     }
 

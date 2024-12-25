@@ -20,4 +20,9 @@ class Patient extends Model
     {
         return $this->hasOne(Biometrics::class,'patient_id','id');
     }
+    public function sideTwg()
+    {
+        return $this->hasOne(SideTWG::class,'patient_id','id');
+
+    }
 }

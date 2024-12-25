@@ -25,3 +25,9 @@ Route::get('/patients/calculate/{id}',[\App\Http\Controllers\Profile\CalculateCo
 Route::get('/patients/calculate/{id}/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'index'])->name('biometrics.index')->middleware('auth');
 Route::post('/patients/calculate/{id}/biometrics',[\App\Http\Controllers\Calculates\BiometricsController::class,'calculate'])->name('biometrics.calculate')->middleware('auth');
 Route::get('/patients/calculate/{id}/biometrics/show',[\App\Http\Controllers\Calculates\BiometricsController::class,'show'])->name('biometrics.show')->middleware('auth');
+
+Route::post('/patients/calculate/{id}/trg/store',[\App\Http\Controllers\Calculates\SideTWGController::class,'store'])->name('trg.store')->middleware('auth');
+Route::get('/patients/calculate/{id}/trg/create',[\App\Http\Controllers\Calculates\SideTWGController::class,'create'])->name('trg.create')->middleware('auth');
+Route::get('/patients/calculate/{id}/trg/show',[\App\Http\Controllers\Calculates\SideTWGController::class,'show'])->name('trg.show')->middleware('auth');
+
+Route::get('/patients/calculate/{id}/planning',[\App\Http\Controllers\Calculates\PlanningController::class,'index'])->name('planning.index')->middleware('auth');
