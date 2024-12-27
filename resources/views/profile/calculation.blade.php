@@ -94,7 +94,7 @@
                 <h2 class="text-xl font-semibold mb-4 text-center">Боковая ТРГ</h2>
 
                 <!-- Форма для загрузки изображения -->
-                <form action="{{ route('trg.store', ['id' => $patient->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('trg.store.image', ['id' => $patient->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
                         <label for="image" class="block text-gray-700 font-medium mb-2">Снимок (png, jpg, jpeg):</label>
@@ -102,19 +102,7 @@
                                class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
-                    <div class="mb-4">
-                        <label for="scale" class="block text-gray-700 font-medium mb-2">Выберите масштаб:</label>
-                        <div class="flex items-center gap-4">
-                            <label class="flex items-center">
-                                <input type="radio" name="scale" value="10" class="mr-2" checked>
-                                0 - 10 мм
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" name="scale" value="30" class="mr-2">
-                                0 - 30 мм
-                            </label>
-                        </div>
-                    </div>
+
 
                     <div class="flex justify-end">
                         <button type="submit"
@@ -156,6 +144,7 @@
             });
 
             closeTprModalBtn.addEventListener('click', () => toggleModal(tprModal, false));
+
         });
     </script>
 @endsection

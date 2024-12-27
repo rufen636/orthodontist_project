@@ -7,7 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 class Sidetwg extends Model
 {
     protected $table = 'side_twg';
-    protected $fillable = ['patient_id', 'image_path', 'calculations'];
+    protected $fillable = [
+        'patient_id',
+        'user_id',
+        'image_path',
+        'SNA',
+        'SNB',
+        'ANB',
+        'Wits',
+        'Beta',
+        'SNMP',
+        'SNNL',
+        'NLMP',
+        'Go',
+        'SGoNMe',
+        'ISN',
+        'INL',
+        'iMP',
+        'Ii'
+        ];
 
     protected $casts = [
         'calculations' => 'array',

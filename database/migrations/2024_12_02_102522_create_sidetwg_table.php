@@ -13,8 +13,21 @@ return new class extends Migration
     {
         Schema::create('side_twg', function (Blueprint $table) {
             $table->id();
-            $table->string('image_path');
-            $table->json('calculations')->nullable(); // Сохраняем расчеты в формате JSON
+            $table->string('image_path')->nullable()->default(0);
+            $table->float('SNA')->nullable()->default(0);
+            $table->float('SNB')->nullable()->default(0);
+            $table->float('ANB')->nullable()->default(0);
+            $table->float('Wits')->nullable()->default(0);
+            $table->float('Beta')->nullable()->default(0);
+            $table->float('SNMP')->nullable()->default(0);
+            $table->float('SNNL')->nullable()->default(0);
+            $table->float('NLMP')->nullable()->default(0);
+            $table->float('Go')->nullable()->default(0);
+            $table->float('SGoNMe')->nullable()->default(0);
+            $table->float('ISN')->nullable()->default(0);
+            $table->float('INL')->nullable()->default(0);
+            $table->float('IMP')->nullable()->default(0);
+            $table->float('Ii')->nullable()->default(0);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->timestamps();
