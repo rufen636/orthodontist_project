@@ -535,9 +535,7 @@
                                 const vectorIiGn = calculateVector(pointIi, pointGn);
                                 const vectorGoMe = calculateVector(pointGo, pointMe);
                                 measurements.IMP = calculateAngleBetweenVectors(vectorIiGn, vectorGoMe).toFixed(2);
-                                alert(pointN);
                             } else {
-                                alert(pointIi);
                                 measurements.IMP = null;
                             }
                             if (pointIi && pointS && pointN) {
