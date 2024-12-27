@@ -66,7 +66,7 @@ class SideTWGController extends Controller
 
     public function store(Request $request, $id)
     {
-dd($request);
+
         SideTWG::updateOrCreate(
             [
                 'user_id' => auth()->id(),

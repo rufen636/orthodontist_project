@@ -39,65 +39,65 @@
         <thead>
         <tr class="bg-gray-100 text-left">
             <th class="border border-gray-200 px-4 py-2">Измерение</th>
-            <th class="border border-gray-200 px-4 py-2">Результат (норма)</th>
+            <th class="border border-gray-200 px-4 py-2">Результат </th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;SNA&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SNA}}° (82)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SNA}}°</td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;SNB&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SNB}}° (80)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SNB}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;ANB&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->ANB}}° (0-2)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->ANB}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;Wits&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->Wits}}° (0-2)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->Wits}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;Beta&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->Beta}}° (27-35)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->Beta}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;SNMP&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SNMP}}° (32)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SNMP}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;SNNL&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SNNL}}° (7-9)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SNNL}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;NLMP&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->NLMP}}° (23)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->NLMP}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;Go&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->Go}}° (127-133)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->Go}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;S-Go/N-Me&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SGoNMe}} % (62-66)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->SGoNMe}} % </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;ISN&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->ISN}}° (120)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->ISN}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;INL&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->INL}}° (108-112)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->INL}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;IMP&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->IMP}}° (110)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->IMP}}° </td>
         </tr>
         <tr>
             <td class="border border-gray-200 px-4 py-2">&lt;Ii&gt;</td>
-            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->Ii}}° (130)</td>
+            <td class="border border-gray-200 px-4 py-2">{{$trgCalculation->Ii}}° </td>
         </tr>
         <!-- Add more rows as needed -->
         </tbody>
