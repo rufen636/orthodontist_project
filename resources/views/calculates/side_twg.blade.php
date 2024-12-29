@@ -20,7 +20,7 @@
             <!-- Масштаб -->
 
 
-            <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md grid grid-cols-2 gap-6">
+            <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md grid grid-cols-3 gap-6">
                 <!-- Левая колонка: Выбор точек и отображение их описания -->
                 <div>
                     <h2 class="text-lg font-semibold mb-4">Точки:</h2>
@@ -54,7 +54,7 @@
                                 <span class="text-gray-700">Поставить Se</span>
                             </label>
                             <div class="point-details hidden mt-4">
-                                <img src="{{ asset('images/sidetwg/pointSe.png') }}" alt="Точка Se" class="max-w-[250px] max-h-[250px] w-full h-auto rounded-lg shadow-md mb-2">
+                                <img src="{{ asset('images/sidetwg/pointSe1.png') }}" alt="Точка Se" class="max-w-[250px] max-h-[250px] w-full h-auto rounded-lg shadow-md mb-2">
                                 <p class="text-gray-600">Середина входа в турецкое седло</p>
                             </div>
                         </div>
@@ -236,13 +236,13 @@
                 </div>
 
 
-                <div class="flex flex-col items-center justify-center bg-gray-50 p-6 border rounded-lg shadow-inner h-full relative">
+                <div class="col-span-2 flex flex-col items-center justify-center bg-gray-50 p-6 border rounded-lg shadow-inner h-full relative">
                     <form action="{{route('trg.store', ['id' => $patient->id])}}" method="POST">
                         @method('PATCH')
                         @csrf <!-- Защита от CSRF-атак -->
                     <div class="relative">
                         <!-- Изображение -->
-                        <img id="main-image" src="{{ asset('storage/' . $trgCalculation->image_path) }}" alt="Главное изображение" class="w-[750px]  h-auto rounded-lg shadow-md">
+                        <img id="main-image" src="{{ asset('storage/' . $trgCalculation->image_path) }}" alt="Главное изображение" class="w-[950px]  h-auto rounded-lg shadow-md">
                         <!-- Контейнер для точек -->
                         <div id="points-overlay" class="absolute top-0 left-0 w-full h-full"></div>
                     </div>
