@@ -25,4 +25,8 @@ class Patient extends Model
         return $this->hasOne(SideTWG::class,'patient_id','id');
 
     }
+    public function treatmentplanning()
+    {
+        return $this->hasOne(TreatmentPlanning::class,'patient_id','id');
+    }
 }

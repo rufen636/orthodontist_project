@@ -32,3 +32,7 @@ Route::get('/patients/calculate/{id}/trg/create',[\App\Http\Controllers\Calculat
 Route::get('/patients/calculate/{id}/trg/show',[\App\Http\Controllers\Calculates\SideTWGController::class,'show'])->name('trg.show')->middleware('auth');
 
 Route::get('/patients/calculate/{id}/planning',[\App\Http\Controllers\Calculates\PlanningController::class,'index'])->name('planning.index')->middleware('auth');
+
+Route::post('/patients/calculate/{id}/planning/save-data', [\App\Http\Controllers\Calculates\PlanningController::class, 'saveData'])->name('save-data')->middleware('auth');;
+Route::get('/patients//calculate/{id}/planning/download-report/braces', [\App\Http\Controllers\Calculates\PlanningController::class, 'downloadBraces'])->name('download-braces')->middleware('auth');;
+Route::get('/patients/calculate/{id}/planning/download-report/aligners', [\App\Http\Controllers\Calculates\PlanningController::class, 'downloadAligners'])->name('download-aligners')->middleware('auth');;

@@ -30,6 +30,14 @@
                     </button>
                 </div>
             @endif
+                @if($patient->treatmentplanning()->exists())
+                    <div>
+                        <button
+                            class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition">
+                            <a href="{{ route('planning.index', ['id' => $patient->id]) }}">Биометрия</a>
+                        </button>
+                    </div>
+                @endif
             @if($patient->sidetwg()->exists())
                     <div>
                         <button
@@ -66,10 +74,11 @@
                         Боковая ТРГ
                     </button>
                     @endif
-
+                        @if(!$patient->treatmentplanning()->exists())
                     <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
                       <a href="{{route('planning.index', ['id' => $patient->id])}}"> Планирование лечения</a>
                     </button>
+                        @endif
                     @if(!$patient->biometrics()->exists())
                         <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
                             <a href="{{route('biometrics.index', ['id' => $patient->id])}}">

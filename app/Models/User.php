@@ -65,4 +65,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(SideTWG::class,'user_id','id');
     }
+    public function treatmentplanning()
+    {
+        return $this->hasOne(TreatmentPlanning::class,'user_id','id');
+    }
 }
