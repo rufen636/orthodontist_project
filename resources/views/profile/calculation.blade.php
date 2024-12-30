@@ -34,7 +34,7 @@
                     <div>
                         <button
                             class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition">
-                            <a href="{{ route('planning.index', ['id' => $patient->id]) }}">Биометрия</a>
+                            <a href="{{ route('planning.index', ['id' => $patient->id]) }}">Планирование лечения</a>
                         </button>
                     </div>
                 @endif

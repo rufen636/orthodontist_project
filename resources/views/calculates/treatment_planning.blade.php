@@ -119,7 +119,7 @@
 
                  </div>
                  <div class="input-container pb-1 pt-6">
-                     <input type="text" class=" scale-input  absolute  right-[25%]"  />
+                     <input type="text" class=" scale-input  absolute  right-[25%]"  name="sepDown"/>
                      <input type="text" class="scale-input absolute  right-[60%]" placeholder=" " name="sepDown"/>
                      <input type="text" class="scale-input absolute  left-[60%]" placeholder=" " name="sepDown"/>
                      <input type="text" class="scale-input absolute  left-[25%]" placeholder=" " name="sepDown" />
