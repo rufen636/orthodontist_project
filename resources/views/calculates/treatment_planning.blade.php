@@ -140,10 +140,7 @@
              <input type="button" id="calculateBtn" class="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" value="Выполнить расчеты">
          </div>
          <!-- Кнопки для скачивания -->
-         <div class="flex justify-center space-x-6">
-             <a href="{{route('download-braces', ['id' => $patient->id])}}" ><input type="button"  class="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" value="Отчет Брекеты (скачать)"></a>
-             <a href="{{route('download-aligners', ['id' => $patient->id])}}"><input type="button" class="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" value="Отчет Элайнеры (скачать)"></a>
-         </div>
+
              <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                  Сохранить
              </button>
