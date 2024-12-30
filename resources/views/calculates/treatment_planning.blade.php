@@ -73,9 +73,6 @@
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
                 <tr>
-                    <th class="border border-gray-300 px-2 py-1" colspan="9">Детализация</th>
-                </tr>
-                <tr>
                     <th class="border border-gray-300 px-2 py-1">Наклон резцов</th>
                     <th class="border border-gray-300 px-2 py-1">3-3</th>
                     <th class="border border-gray-300 px-2 py-1">4-4</th>
@@ -103,7 +100,7 @@
             </table>
         </div>
          <div class="scale-container pb-6 relative">
-             <p class="p-2">Сепарация/реставрация</p>
+             <p class="p-2">Сепарация</p>
              <div class="scale pt-16">
                  <div class="scale-labels pb-4">
 
