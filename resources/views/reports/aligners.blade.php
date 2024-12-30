@@ -20,6 +20,34 @@
             width: 100%;
             margin-top: 5px;
         }
+
+        h2 {
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .underline {
+            border-bottom: 1px solid #000;
+            width: 100%;
+            margin-top: 5px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            text-align: center;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>

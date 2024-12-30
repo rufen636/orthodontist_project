@@ -17,8 +17,8 @@ class PlanningController extends Controller
         $patient = Patient::where('id', $id)
             ->where('user_id', $userId)
             ->firstOrFail();
-
-        return view('calculates.treatment_planning', compact( 'patient'));
+        $planningCalculation = $patient->treatmentplanning()->first();
+        return view('calculates.treatment_planning', compact( 'patient','planningCalculation'));
     }
     public function saveData(Request $request, $id)
     {
