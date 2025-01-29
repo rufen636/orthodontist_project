@@ -26,7 +26,7 @@
             <h2 class="text-lg font-semibold mb-2">Дефицит места ВЧ</h2>
             <div class="flex items-center mb-4">
                 <label class="mr-2">A:</label>
-                <input type="text" class="border rounded px-2 py-1 w-20" name="deficit_a" value="{{$planningCalculation->space_vc}}">
+                <input type="text" class="border rounded px-2 py-1 w-20" name="deficit_a" value="{{$planningCalculation?->space_vc ?? ''}}">
             </div>
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
@@ -46,17 +46,17 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="incisor_inclination_up" value="{{$planningCalculation->incisor_inclination_up}}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_3_3_vc" value="{{ $planningCalculation->value_3_3_vc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_4_4_vc" value="{{ $planningCalculation->value_4_4_vc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_5_5_vc" value="{{ $planningCalculation->value_5_5_vc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_6_6_vc" value="{{ $planningCalculation->value_6_6_vc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="distalization_i" value="{{ $planningCalculation->distalization_i }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="distalization_ii" value="{{ $planningCalculation->distalization_ii }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="derotation_16" value="{{ $planningCalculation->derotation_16 }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="derotation_26" value="{{ $planningCalculation->derotation_26 }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="separation" value="{{ $planningCalculation->separation }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="text" class="w-full text-center border rounded" name="space_vc" value="{{ $planningCalculation->space_vc }}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="incisor_inclination_up" value="{{$planningCalculation->incisor_inclination_up ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_3_3_vc" value="{{ $planningCalculation->value_3_3_vc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_4_4_vc" value="{{ $planningCalculation->value_4_4_vc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_5_5_vc" value="{{ $planningCalculation->value_5_5_vc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_6_6_vc" value="{{ $planningCalculation->value_6_6_vc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="distalization_i" value="{{ $planningCalculation->distalization_i ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="distalization_ii" value="{{ $planningCalculation->distalization_ii ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="derotation_16" value="{{ $planningCalculation->derotation_16 ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="derotation_26" value="{{ $planningCalculation->derotation_26 ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="separation" value="{{ $planningCalculation->separation ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="text" class="w-full text-center border rounded" name="space_vc" value="{{ $planningCalculation->space_vc ?? ''}}"></td>
                 </tr>
 
                 </tbody>
@@ -68,7 +68,7 @@
             <h2 class="text-lg font-semibold mb-2">Дефицит места НЧ</h2>
             <div class="flex items-center mb-4">
                 <label class="mr-2">B:</label>
-                <input type="text" class="border rounded px-2 py-1 w-20" name="deficit_b" value="{{$planningCalculation->space_nc}}">
+                <input type="text" class="border rounded px-2 py-1 w-20" name="deficit_b" value="{{$planningCalculation->space_nc ?? ''}}">
             </div>
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
@@ -86,15 +86,15 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="incisor_inclination_down" value="{{ $planningCalculation->incisor_inclination_down }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_3_3_nc" value="{{ $planningCalculation->value_3_3_nc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_4_4_nc" value="{{ $planningCalculation->value_4_4_nc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_5_5_nc" value="{{ $planningCalculation->value_5_5_nc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_6_6_nc" value="{{ $planningCalculation->value_5_5_nc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="distalization_iii" value="{{ $planningCalculation->distalization_iii }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="distalization_iv" value="{{ $planningCalculation->distalization_iv }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="separation_nc" value="{{ $planningCalculation->separation_nc }}"></td>
-                    <td class="border border-gray-300 px-2 py-1"><input type="text" class="w-full text-center border rounded" name="space_nc" value="{{ $planningCalculation->space_nc }}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="incisor_inclination_down" value="{{ $planningCalculation->incisor_inclination_down ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_3_3_nc" value="{{ $planningCalculation->value_3_3_nc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_4_4_nc" value="{{ $planningCalculation->value_4_4_nc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_5_5_nc" value="{{ $planningCalculation->value_5_5_nc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="value_6_6_nc" value="{{ $planningCalculation->value_5_5_nc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="distalization_iii" value="{{ $planningCalculation->distalization_iii ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="distalization_iv" value="{{ $planningCalculation->distalization_iv ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="number" class="w-full text-center border rounded" name="separation_nc" value="{{ $planningCalculation->separation_nc ?? ''}}"></td>
+                    <td class="border border-gray-300 px-2 py-1"><input type="text" class="w-full text-center border rounded" name="space_nc" value="{{ $planningCalculation->space_nc ?? ''}}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -119,16 +119,16 @@
 
                  </div>
                  <div class="input-container pb-1 pt-6">
-                     <input type="text" class=" scale-input  absolute  right-[25%]"  name="sepDown" value="{{ $planningCalculation->sepDown }}"/>
-                     <input type="text" class="scale-input absolute  right-[60%]" placeholder=" " name="sepDown" value="{{ $planningCalculation->sepDown }}"/>
-                     <input type="text" class="scale-input absolute  left-[60%]" placeholder=" " name="sepDown" value="{{ $planningCalculation->sepDown }}"/>
-                     <input type="text" class="scale-input absolute  left-[25%]" placeholder=" " name="sepDown" value="{{ $planningCalculation->sepDown }}"/>
-                     <input type="text" class="scale-input absolute  left-[48%]" placeholder=" " name="sepDown" value="{{ $planningCalculation->sepDown }}"/>
-                     <input type="text" class="scale-input  absolute top-[20%] right-[25%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp }}"/>
-                     <input type="text" class="scale-input absolute top-[20%]  right-[60%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp }}"/>
-                     <input type="text" class="scale-input absolute top-[20%] left-[60%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp }}" />
-                     <input type="text" class="scale-input absolute top-[20%] left-[25%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp }}" />
-                     <input type="text" class="scale-input absolute  top-[20%] left-[48%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp }}"/>
+                     <input type="text" class=" scale-input  absolute  right-[25%]"  name="sepDown" value="{{ $planningCalculation->sepDown ?? ''}}"/>
+                     <input type="text" class="scale-input absolute  right-[60%]" placeholder=" " name="sepDown" value="{{ $planningCalculation->sepDown ?? ''}}"/>
+                     <input type="text" class="scale-input absolute  left-[60%]" placeholder=" " name="sepDown" value="{{ $planningCalculation->sepDown ?? ''}}"/>
+                     <input type="text" class="scale-input absolute  left-[25%]" placeholder=" " name="sepDown" value="{{ $planningCalculation->sepDown ?? ''}}"/>
+                     <input type="text" class="scale-input absolute  left-[48%]" placeholder=" " name="sepDown" value="{{ $planningCalculation->sepDown ?? ''}}"/>
+                     <input type="text" class="scale-input  absolute top-[20%] right-[25%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp ?? ''}}"/>
+                     <input type="text" class="scale-input absolute top-[20%]  right-[60%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp ?? ''}}"/>
+                     <input type="text" class="scale-input absolute top-[20%] left-[60%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp ?? ''}}" />
+                     <input type="text" class="scale-input absolute top-[20%] left-[25%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp ?? ''}}" />
+                     <input type="text" class="scale-input absolute  top-[20%] left-[48%]" name="sepUp" placeholder=" " value="{{ $planningCalculation->sepUp ?? '' }}"/>
 
                  </div>
              </div>
