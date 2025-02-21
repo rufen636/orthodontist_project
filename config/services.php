@@ -27,7 +27,10 @@ return [
     'resend' => [
         'key' => env('RESEND_KEY'),
     ],
-
+    'tinkoff' => [
+        'terminal_key' => env('TINKOFF_TERMINAL_KEY'),
+        'secret_key' => env('TINKOFF_SECRET_KEY'),
+    ],
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

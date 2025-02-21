@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -27,7 +28,7 @@ class User extends Authenticatable
         'fullName',
         'phone',
         'email',
-        'city'
+        'city',
     ];
 
     /**
@@ -69,4 +70,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(TreatmentPlanning::class,'user_id','id');
     }
+    public function subscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
+
 }

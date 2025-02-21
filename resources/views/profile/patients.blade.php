@@ -2,7 +2,7 @@
 @section('head')
 @endsection
 @section('content')
-    <div class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6 mt-6">
         <div class="bg-white rounded-lg shadow-lg p-6 max-w-5xl w-full">
             <div class="flex justify-between items-center mb-6">
                 <button  class="text-blue-600 hover:text-blue-800">
@@ -17,6 +17,9 @@
                     {{--                        тариф--}}
                     {{--                    </button>--}}
 
+                    <button  type="button"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"><a href="{{route('payment.index')}}">Оформить подписку</a>
+                    </button>
                     <button id="addPatientBtn" type="button"
                             class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">Добавить
                         пациента
@@ -56,17 +59,26 @@
         </div>
 
         <!-- Всплывающее окно для добавления пациента -->
-        <form action="{{route('create.patient')}}" method="POST">
-            @csrf
-            <div id="addPatientModal"
-                 class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
-                <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-2xl font-bold text-gray-800">Добавить пациента</h2>
-                        <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-xl font-bold">×
-                        </button>
-                    </div>
-                    <form id="addPatientForm">
+
+        @php
+            $subscription = auth()->user()->subscription;
+            $patientsCount = auth()->user()->patients()->count();
+            $canAddPatient = $subscription && (
+                ($subscription->status === 'inactive' && $patientsCount < 5) ||
+                ($subscription->status === 'active' && $patientsCount < 300)
+            );
+        @endphp
+
+        @if($canAddPatient)
+            <form action="{{route('create.patient')}}" method="POST">
+                @csrf
+                <div id="addPatientModal"
+                     class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
+                    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold text-gray-800">Добавить пациента</h2>
+                            <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-xl font-bold">×</button>
+                        </div>
                         <div class="space-y-4">
                             <div>
                                 <label for="fullName" class="block text-gray-600">ФИО</label>
@@ -80,11 +92,15 @@
                                 Добавить
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </form>
-
+            </form>
+        @else
+            <p class="text-red-500 text-center mt-4">
+                Вы достигли лимита пациентов ({{ $patientsCount }} / {{ $subscription->patients_limit }}).
+                Оформите подписку для увеличения лимита.
+            </p>
+        @endif
         <script>
 
             const addPatientBtn = document.getElementById('addPatientBtn');
@@ -111,9 +127,10 @@
                 // Логика добавления нового пациента
                 alert(`Пациент добавлен: ${fullName}`);
 
-                // Закрытие модального окна
-                addPatientModal.classList.add('hidden');
+
             });
+
+
         </script>
     </div>
 @endsection

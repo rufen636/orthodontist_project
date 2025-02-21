@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TinkoffController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[ \App\Http\Controllers\IndexController::class,'index'])->name('main.index');
@@ -36,3 +38,14 @@ Route::get('/patients/calculate/{id}/planning',[\App\Http\Controllers\Calculates
 Route::post('/patients/calculate/{id}/planning/save-data', [\App\Http\Controllers\Calculates\PlanningController::class, 'saveData'])->name('save-data')->middleware('auth');;
 Route::get('/patients//calculate/{id}/planning/download-report/braces', [\App\Http\Controllers\Calculates\PlanningController::class, 'downloadBraces'])->name('download-braces')->middleware('auth');;
 Route::get('/patients/calculate/{id}/planning/download-report/aligners', [\App\Http\Controllers\Calculates\PlanningController::class, 'downloadAligners'])->name('download-aligners')->middleware('auth');;
+
+Route::middleware('auth')->group(function () {
+    Route::get('/payment/show', [PaymentController::class, 'index'])->name('payment.index');
+    Route::post('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
+    Route::get('/payment/tinkoff', [PaymentController::class, 't_bank'])->name('payment.tinkoff');
+    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::post('/pay', [TinkoffController::class, 'pay'])->name('tinkoff.pay');
+    Route::post('/webhook', [TinkoffController::class, 'webhook'])->name('tinkoff.webhook');
+    Route::get('/payment/status', [TinkoffController::class, 'checkStatus'])->name('tinkoff.status');
+});
+

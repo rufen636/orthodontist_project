@@ -23,12 +23,20 @@ class RegisterController extends Controller
         ], [
             'login.unique' => 'Такой логин уже существует. Пожалуйста, выберите другой.',
         ]);
-        User::create([
-           'login' => $request['login'],
-           'password' => Hash::make($request['password']),
-            'password_not_hashed'=> $request['password'],
-
+        $user = User::create([
+            'login' => $request['login'],
+            'password' => Hash::make($request['password']),
+            'password_not_hashed' => $request['password'],
         ]);
+
+        // Создание подписки (по умолчанию неактивная)
+        $user->subscription()->create([
+            'user_id'=>$user->id,
+            'status' => 'inactive', // Подписка неактивна по умолчанию
+            'patients_limit' => 5, // Лимит пациентов без подписки
+            'expires_at' => null, // Нет срока действия
+        ]);
+
         return redirect()->route('main.login');
 
     }
