@@ -3,50 +3,34 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Subscription;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class RenewSubscriptions extends Command
 {
     protected $signature = 'subscriptions:renew';
-    protected $description = 'Проверяет подписки и продлевает их автоматически';
+    protected $description = 'Автоматически продлевает подписки пользователей';
 
     public function handle()
     {
-        $subscriptions = Subscription::where('status', 'active')
-            ->whereDate('expires_at', '<=', Carbon::now()) // Проверяем, истекла ли подписка
-            ->whereNotNull('rebill_id')
-            ->get();
+        $subscriptions = Subscription::where('expires_at', '<', now())->whereNotNull('rebill_id')->get();
 
         foreach ($subscriptions as $subscription) {
-            $amount = 300000; // 3000 рублей (в копейках)
-
-            $data = [
+            $response = Http::post('https://securepay.tinkoff.ru/v2/Charge', [
                 'TerminalKey' => config('services.tinkoff.terminal_key'),
-                'Amount' => $amount,
-                'OrderId' => $subscription->user_id,
-                'RebillId' => $subscription->rebill_id, // Используем сохранённый RebillId
-                'Description' => 'Продление подписки',
-                'NotificationURL' => route('tinkoff.webhook'),
-            ];
+                'RebillId' => $subscription->rebill_id,
+                'Amount' => 300000, // Цена подписки
+            ]);
 
-            $response = Http::post('https://securepay.tinkoff.ru/v2/Charge', $data);
-            $result = $response->json();
+            $paymentData = $response->json();
 
-            if (!empty($result['Success']) && $result['Success'] == true) {
-                $subscription->expires_at = Carbon::now()->addMonth(); // Продлеваем на месяц
-                $subscription->save();
-
-                Log::info('Продлена подписка для пользователя: ' . $subscription->user_id);
+            if ($paymentData['Success']) {
+                // Продляем подписку
+                $subscription->update(['expires_at' => now()->addMonth()]);
             } else {
-                $subscription->status = 'inactive'; // Отключаем подписку, если не удалось списать деньги
-                $subscription->save();
-
-                Log::warning('Не удалось продлить подписку для пользователя: ' . $subscription->user_id);
+                // Если платеж не прошел, можно уведомить пользователя
+                Log::error("Ошибка продления подписки: {$subscription->user_id}");
             }
         }
-
-        Log::info('Проверка подписок завершена');
     }
 }

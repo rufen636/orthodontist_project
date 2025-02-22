@@ -13,7 +13,12 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('subscriptions:renew')->dailyAt('03:00'); // Запуск каждый день в 3:00 ночи
         $schedule->command('subscriptions:deactivate')->daily();
+
     }
+    protected $routeMiddleware = [
+        'check.subscription' => \App\Http\Middleware\CheckSubscription::class,
+    ];
+
 
 
     protected function commands()
