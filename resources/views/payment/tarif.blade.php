@@ -46,7 +46,7 @@
                         <input class="payform-tbank-row" type="hidden" name="frame" value="false">
                         <input class="payform-tbank-row" type="hidden" name="language" value="ru">
                         <input class="payform-tbank-row" type="hidden" placeholder="Сумма заказа" value="3000" name="amount" required>
-
+                        <input class="payform-tbank-row" type="hidden" placeholder="Номер заказа" name="order">
                         <input type="submit" class="mt-4 block w-full px-4 py-2 bg-blue-500 text-white text-center rounded-lg shadow-md hover:bg-blue-600" value = "Оформить подписку">
                     </form>
                 @endif

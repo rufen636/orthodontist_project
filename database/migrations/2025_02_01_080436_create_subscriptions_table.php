@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('status')->default('inactive'); // active, inactive, expired
             $table->integer('patients_limit')->default(5);
             $table->timestamp('expires_at')->nullable();
+            $table->string('rebill_id')->nullable();
             $table->timestamps();
         });
     }

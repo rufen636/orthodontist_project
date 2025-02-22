@@ -1,58 +1,109 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\TinkoffService;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Models\Subscription;
 
 class TinkoffController extends Controller
 {
-    protected $tinkoffService;
-
-    public function __construct(TinkoffService $tinkoffService)
-    {
-        $this->tinkoffService = $tinkoffService;
-    }
-
-    // Метод для инициализации платежа
     public function pay(Request $request)
     {
-        $request->validate([
-            'amount' => 'required|numeric|min:1',
-        ]);
+        $user = auth()->user();
+        $amount = 300000; // 3000 рублей (в копейках)
 
-        $orderId = time(); // Генерируем уникальный номер заказа
-        $amount = $request->amount;
-        $description = "Оплата заказа #{$orderId}";
+        // Создаём или обновляем подписку
+        $subscription = Subscription::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'status' => 'pending',
+                'patients_limit' => 300,
+                'expires_at' => now()->addMonth(),
+            ]
+        );
 
-        $payment = $this->tinkoffService->initPayment($orderId, $amount, $description);
+        // Формируем данные для API Тинькофф
+        $data = [
+            'TerminalKey' => config('services.tinkoff.terminal_key'),
+            'Amount' => $amount,
+            'OrderId' => $user->id,
+            'Description' => 'Оплата подписки на сервис',
+            'SuccessURL' => route('payment.success'),
+            'FailURL' => route('payment.failed'),
+            'NotificationURL' => route('tinkoff.webhook'),
+            'Recurrent' => 'true', // Включаем автоплатежи
+        ];
 
-        if (isset($payment['Success']) && $payment['Success']) {
-            return redirect($payment['PaymentURL']); // Перенаправляем пользователя на оплату
+        Log::info('Отправка запроса на оплату', $data);
+
+        // Отправляем запрос в Тинькофф
+        $response = Http::post('https://securepay.tinkoff.ru/v2/Init', $data);
+        $result = $response->json();
+
+        if (!empty($result['PaymentURL'])) {
+            return redirect()->away($result['PaymentURL']);
         }
 
-        return back()->with('error', 'Ошибка при создании платежа');
+        return back()->withErrors('Ошибка при создании платежа');
     }
 
-    public function checkStatus(Request $request)
-    {
-        $orderId = $request->order_id; // передай номер заказа
-        $status = $this->tinkoffService->checkPaymentStatus($orderId);
 
-        return response()->json($status);
-    }
-
-    // Метод для обработки webhook-уведомлений от Тинькофф
     public function webhook(Request $request)
     {
-        $data = $request->all();
-        Log::info('Tinkoff Webhook:', $data); // Логируем входящие данные
+        Log::info('Webhook received:', $request->all());
 
-        if ($data['Status'] == 'CONFIRMED') {
-            // Здесь можно обновить статус заказа в БД
+        $data = $request->all();
+
+        if (!$this->isValidTinkoffSignature($data)) {
+            Log::warning('Webhook signature invalid', $data);
+            return response('Invalid signature', 403);
         }
 
-        return response()->json(['status' => 'ok']);
+        if (isset($data['Status']) && $data['Status'] === 'CONFIRMED') {
+            $userId = $data['OrderId'];
+
+            $subscription = Subscription::where('user_id', $userId)->first();
+
+            if ($subscription) {
+                $subscription->status = 'active';
+                $subscription->patients_limit = 300;
+                $subscription->expires_at = now()->addMonth(); // Подписка на 1 месяц
+                if (isset($data['RebillId'])) {
+                    $subscription->rebill_id = $data['RebillId']; // Сохраняем RebillId
+                }
+                $subscription->save();
+
+                Log::info('Подписка активирована для пользователя: ' . $userId);
+            } else {
+                Log::warning('Subscription not found for user: ' . $userId);
+            }
+        }
+
+        return response('OK', 200)->header('Content-Type', 'text/plain');
     }
+
+
+    public function success()
+    {
+        return redirect()->route('dashboard')->with('message', 'Оплата прошла успешно!');
+    }
+    public function failed()
+    {
+        return redirect()->route('dashboard')->with('error', 'Оплата не прошла. Попробуйте снова.');
+    }
+    private function isValidTinkoffSignature($data)
+    {
+        $token = $data['Token'] ?? '';
+        unset($data['Token']);
+
+        ksort($data);
+        $values = implode('', array_values($data));
+
+        $password = config('services.tinkoff.password');
+        $checkToken = hash('sha256', $values . $password);
+
+        return $token === $checkToken;
+    }
+
 }

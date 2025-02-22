@@ -43,9 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/payment/show', [PaymentController::class, 'index'])->name('payment.index');
     Route::post('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
     Route::get('/payment/tinkoff', [PaymentController::class, 't_bank'])->name('payment.tinkoff');
-    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::post('/pay', [TinkoffController::class, 'pay'])->name('tinkoff.pay');
     Route::post('/webhook', [TinkoffController::class, 'webhook'])->name('tinkoff.webhook');
-    Route::get('/payment/status', [TinkoffController::class, 'checkStatus'])->name('tinkoff.status');
+    Route::get('/payment/success', [TinkoffController::class, 'success'])->name('payment.success');
+    Route::get('/payment/failed', [TinkoffController::class, 'failed'])->name('payment.failed');
 });
 
