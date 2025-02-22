@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
     Route::get('/payment/tinkoff', [PaymentController::class, 't_bank'])->name('payment.tinkoff');
     Route::post('/pay', [TinkoffController::class, 'pay'])->name('tinkoff.pay');
-    Route::post('/webhook', [TinkoffController::class, 'webhook'])->name('tinkoff.webhook');
+    Route::post('/webhook', [TinkoffController::class, 'webhook'])->name('tinkoff.webhook')->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
     Route::get('/payment/success', [TinkoffController::class, 'success'])->name('payment.success');
     Route::get('/payment/failed', [TinkoffController::class, 'failed'])->name('payment.failed');
 });
