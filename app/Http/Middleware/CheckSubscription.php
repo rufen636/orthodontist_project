@@ -18,7 +18,7 @@ class CheckSubscription
         if ($subscription) {
             if ($subscription->expires_at < now()) {
                 // Если подписка истекла, меняем статус
-                $subscription->update(['status' => 'expired']);
+                $subscription->update(['status' => 'pending']);
             } else {
                 // Если подписка активна, убеждаемся, что статус правильный
                 if ($subscription->status !== 'active') {

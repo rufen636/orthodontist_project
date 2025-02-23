@@ -11,8 +11,10 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('subscriptions:renew')->dailyAt('03:00'); // Запуск каждый день в 3:00 ночи
         $schedule->command('subscriptions:deactivate')->daily();
+        $schedule->call(function () {
+            app(TinkoffController::class)->renewSubscription();
+        })->daily();
 
     }
     protected $routeMiddleware = [

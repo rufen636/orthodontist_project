@@ -18,8 +18,13 @@ class PaymentController extends Controller
         $this->tinkoffService = $tinkoffService;
     }
     public function index(){
-
-        return view('payment.tarif');
+        $user = auth()->user();
+        $orderId = uniqid($user->id . '_'); // Генерация уникального orderId с префиксом из user_id
+        Subscription::updateOrCreate(
+            ['user_id' => $user->id], // Ищем подписку по user_id
+            ['order_id' => $orderId]   // Сохраняем только orderId
+        );
+        return view('payment.tarif',compact('orderId'));
     }
 
     public function t_bank()

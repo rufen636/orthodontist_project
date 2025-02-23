@@ -29,6 +29,7 @@ class User extends Authenticatable
         'phone',
         'email',
         'city',
+        'rebill_id'
     ];
 
     /**

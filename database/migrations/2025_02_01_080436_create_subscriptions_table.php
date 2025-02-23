@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('inactive'); // active, inactive, expired
+            $table->enum('status', ['pending', 'active', 'inactive'])->default('inactive');
             $table->integer('patients_limit')->default(5);
             $table->timestamp('expires_at')->nullable();
             $table->string('rebill_id')->nullable();

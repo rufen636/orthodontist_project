@@ -38,18 +38,22 @@
                     <span class="block mt-4 px-4 py-2 text-center bg-green-500 text-white rounded-lg">
                     Активный тариф
                 </span>
+
                 @else
                     <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
                     <form action="{{ route('tinkoff.pay') }}" method="POST" class="payform-tbank" name="payform-tbank" onsubmit="pay(this); return false;">
                         @csrf
-                        <input class="payform-tbank-row" type="hidden" name="terminalkey" value="{{config('services.tinkoff.terminal_key')}}">
+                        <input class="payform-tbank-row" type="hidden" name="terminalkey" value="{{ config('services.tinkoff.terminal_key') }}">
                         <input class="payform-tbank-row" type="hidden" name="frame" value="false">
                         <input class="payform-tbank-row" type="hidden" name="language" value="ru">
                         <input class="payform-tbank-row" type="hidden" placeholder="Сумма заказа" value="3000" name="amount" required>
-                        <input class="payform-tbank-row" type="hidden" placeholder="Номер заказа" name="order">
-                        <input type="submit" class="mt-4 block w-full px-4 py-2 bg-blue-500 text-white text-center rounded-lg shadow-md hover:bg-blue-600" value = "Оформить подписку">
+                        <input class="payform-tbank-row" type="hidden" name="order" value="{{ $orderId }}">
+                        <input type="submit" class="mt-4 block w-full px-4 py-2 bg-blue-500 text-white text-center rounded-lg shadow-md hover:bg-blue-600" value="Оформить подписку">
                     </form>
                 @endif
+
+
+
             </div>
         </div>
     </div>

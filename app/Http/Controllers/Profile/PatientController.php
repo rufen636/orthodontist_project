@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,8 +16,8 @@ class PatientController extends Controller
         $patients = Patient::where('user_id', $userId)->get();
         $user = User::find($userId);
         $request->session()->regenerate();
-
-        return view('profile.patients',compact('patients','user'));
+        $subscription = auth()->user()->subscription()->first();
+        return view('profile.patients',compact('patients','user','subscription'));
     }
 
     public function create(Request $request)
