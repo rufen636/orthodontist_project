@@ -18,12 +18,10 @@ class CheckSubscription
         if ($subscription) {
             if ($subscription->expires_at < now()) {
                 // Если подписка истекла, меняем статус
-                $subscription->update(['status' => 'pending']);
+                $subscription->update(['status' => 'pending','patients_limit'=>5]);
             } else {
                 // Если подписка активна, убеждаемся, что статус правильный
-                if ($subscription->status !== 'active') {
-                    $subscription->update(['status' => 'active']);
-                }
+
             }
         }
 

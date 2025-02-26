@@ -8,6 +8,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PatientController extends Controller
 {
@@ -17,8 +18,22 @@ class PatientController extends Controller
         $user = User::find($userId);
         $request->session()->regenerate();
         $subscription = auth()->user()->subscription()->first();
-        return view('profile.patients',compact('patients','user','subscription'));
+        $patientsCount = auth()->user()->patients()->count();
+        $maxPatients = 5;
+
+        if ($subscription && $subscription->status === 'active') {
+            $maxPatients = $subscription->patients_limit ?? 300; // Устанавливаем 300 по умолчанию
+        }
+
+        $canAddPatient = $subscription && (
+                ($subscription->status === 'inactive' && $subscription->patients_limit === 5) ||
+                ($subscription->status === 'pending' && $subscription->patients_limit === 5) ||
+                ($subscription->status === 'active' && $subscription->patients_limit === 300) ||
+                ($subscription->status === 'canceled' && $subscription->patients_limit === 300)
+            );
+        return view('profile.patients',compact('patients','user','subscription','canAddPatient','patientsCount'));
     }
+
 
     public function create(Request $request)
     {

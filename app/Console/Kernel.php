@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TinkoffController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -11,10 +12,11 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('subscriptions:deactivate')->daily();
+
         $schedule->call(function () {
-            app(TinkoffController::class)->renewSubscription();
+            app(\App\Http\Controllers\TinkoffController::class)->renewSubscription();
         })->daily();
+        $schedule->command('subscription:check-expiration')->hourly();
 
     }
     protected $routeMiddleware = [

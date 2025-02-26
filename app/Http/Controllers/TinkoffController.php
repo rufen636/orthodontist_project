@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -121,13 +122,23 @@ class TinkoffController extends Controller
             return false;
         }
 
+        // Получаем OrderId из базы данных
+        if (isset($data['OrderId'])) {
+            $order = \App\Models\Subscription::where('order_id', $data['OrderId'])->first();
+            if (!$order) {
+                Log::error('OrderId not found in database', ['OrderId' => $data['OrderId']]);
+                return false;
+            }
+            $data['OrderId'] = $order->order_id; // Убеждаемся, что берем правильное значение из БД
+        }
+
         // Порядок параметров
         $orderedParams = [
             'Amount',
             'CardId',
             'ErrorCode',
             'ExpDate',
-            'OrderId',  // Убедитесь, что это поле добавлено
+            'OrderId',  // Значение теперь берется из БД
             'Pan',
             'Password',  // Секретный ключ идет сюда
             'PaymentId',
@@ -163,6 +174,7 @@ class TinkoffController extends Controller
 
         return hash_equals($expectedToken, $calculatedToken);
     }
+
 
 
     public function renewSubscription()
@@ -216,16 +228,23 @@ class TinkoffController extends Controller
         }
 
         // Обновляем подписку
-        $subscription->update([
-            'rebill_id' => null, // Отвязываем карту
-            'patients_limit' => 5, // Откат на бесплатный тариф
-            'status' => 'inactive', // Переводим в неактивный статус
-            'expires_at' => null, // Сдвигаем expires_at на месяц назад
-        ]);
+        if ($subscription) {
+            $subscription->update([
+                'status' => 'canceled',
+
+            ]);
+            Log::info("Статус подписки перед refresh: " . $subscription->status);
+
+            $subscription->refresh();
+            Log::info("Статус подписки после refresh: " . $subscription->status);
+
+            Log::info('Подписка обновлена', ['status' => $subscription->status]);
+        }
 
         // Возвращаем успешный ответ
         return redirect()->route('main.patients')->with('success', 'Подписка отменина');
     }
+
 
 
 }

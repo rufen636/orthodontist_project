@@ -25,12 +25,15 @@ class RenewSubscriptions extends Command
             $paymentData = $response->json();
 
             if ($paymentData['Success']) {
-                // Продляем подписку
-                $subscription->update(['expires_at' => now()->addMonth()]);
+                $subscription->update([
+                    'expires_at' => now()->addMonth(),
+                    'status' => 'active'
+                ]);
             } else {
-                // Если платеж не прошел, можно уведомить пользователя
+                $subscription->update(['status' => 'canceled']);
                 Log::error("Ошибка продления подписки: {$subscription->user_id}");
             }
+
         }
     }
 }

@@ -14,10 +14,12 @@
                             class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600"><a
                             href="{{route('payment.index')}}">Оформить подписку</a>
                     </button>
-                    <button id="addPatientBtn" type="button"
-                            class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">Добавить
-                        пациента
-                    </button>
+                    @if($canAddPatient)
+                        <button id="addPatientBtn" type="button"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">Добавить
+                            пациента
+                        </button>
+                    @endif
                     @if($subscription && $subscription->status === 'active')
                         <!-- Кнопка отмены подписки -->
                         <button id="cancelSubscriptionBtn" type="button"
@@ -66,12 +68,8 @@
                             cancelBtn.addEventListener('click', () => {
                                 confirmationModal.classList.add('hidden');
                             });
-
-                            // Отправить форму при подтверждении
-                            // Форма для отмены подписки будет отправлена после нажатия на кнопку "Подтвердить"
                         </script>
                     @endif
-
                 </div>
             </div>
 
@@ -86,14 +84,28 @@
                 <tbody>
                 @php
                     $subscription = auth()->user()->subscription;
+                    $subscription->refresh();
                     $patientsCount = auth()->user()->patients()->count();
-                    $canViewAllPatients = $subscription && (
-                        $subscription->status === 'active' || $patientsCount <= 5
+                  $maxPatients = 5;
+            if ($subscription && $subscription->status !== 'inactive' && $subscription->status !== 'pending') {
+                $maxPatients = $subscription->patients_limit;
+            }
+
+            // Ограничиваем количество пациентов, которые отображаются, если подписка не активна или в ожидании
+            $patientsDisplay = ($subscription && ($subscription->status === 'inactive' || $subscription->status === 'pending')) ? min($patientsCount, $maxPatients) : $patientsCount;
+
+
+                    // Определяем, можно ли добавить пациента
+                    $canAddPatient = $subscription && (
+                        ($subscription->status === 'inactive' && $patientsCount < 5) ||
+                        ($subscription->status === 'pending' && $patientsCount < 5) ||
+                        ($subscription->status === 'active' && $patientsCount < $maxPatients) ||
+                        ($subscription->status === 'canceled' && $patientsCount < 300)
                     );
                 @endphp
 
                 @foreach($patients as $index => $patient)
-                    @if($canViewAllPatients || $index < 5)
+                    @if($patientsCount <= 5 || $index < $maxPatients)
                         <tr class="border-b">
                             <td class="p-4 text-gray-800">
                                 <a href="{{ route('patients.calculate', ['id' => $patient->id]) }}">
@@ -119,40 +131,14 @@
         </div>
 
         <!-- Всплывающее окно для добавления пациента -->
-
-        @php
-            $subscription = auth()->user()->subscription;
-            $patientsCount = auth()->user()->patients()->count();
-            $canAddPatient = $subscription && (
-                ($subscription->status === 'inactive' && $patientsCount < 5) ||
-                ($subscription->status === 'pending' && $patientsCount < 5) ||
-                ($subscription->status === 'active' && $patientsCount < 300)
-            );
-
-        @endphp
-        @php
-            $subscription = auth()->user()->subscription;
-            $patientsCount = auth()->user()->patients()->count();
-
-            // Определяем максимальное количество пациентов, которое может быть отображено
-            $maxPatients = 5;
-            if ($subscription && $subscription->status !== 'inactive' && $subscription->status !== 'pending') {
-                $maxPatients = $subscription->patients_limit;
-            }
-
-            // Ограничиваем количество пациентов, которые отображаются, если подписка не активна или в ожидании
-            $patientsDisplay = ($subscription && ($subscription->status === 'inactive' || $subscription->status === 'pending')) ? min($patientsCount, $maxPatients) : $patientsCount;
-        @endphp
         @if($canAddPatient)
             <form action="{{route('create.patient')}}" method="POST">
                 @csrf
-                <div id="addPatientModal"
-                     class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
+                <div id="addPatientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
                     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-2xl font-bold text-gray-800">Добавить пациента</h2>
-                            <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-xl font-bold">×
-                            </button>
+                            <button id="closeModalBtnPatient" class="text-gray-500 hover:text-gray-800 text-xl font-bold">×</button>
                         </div>
                         <div class="space-y-4">
                             <div>
@@ -169,57 +155,49 @@
                         </div>
                     </div>
                 </div>
+
             </form>
-            @elseif($subscription && $subscription->status === 'active')
-                <p class="text-green-500 text-center mt-4">
-                    Ваш лимит пациентов: {{ $patientsDisplay }} / {{ $subscription->patients_limit }}.
-                </p>
-            @elseif($subscription && $subscription->status === 'pending')
-                <p class="text-yellow-500 text-center mt-4">
-                    Вы достигли лимита пациентов ({{ $patientsDisplay }} / 5). Продлите подписку, чтобы увидеть всех своих пациентов.
-                </p>
-            @elseif($subscription && $subscription->status === 'inactive')
-                <p class="text-red-500 text-center mt-4">
-                    Вы достигли лимита пациентов ({{ $patientsDisplay }} / 5). Купите подписку для увеличения лимита и продолжения работы с пациентами.
-                </p>
-            @else
-                <p class="text-red-500 text-center mt-4">
-                    У вас нет активной подписки. Оформите подписку, чтобы начать работать с пациентами.
-                </p>
-            @endif
+        @elseif($subscription && $subscription->status === 'pending')
+            <p class="text-yellow-500 text-center mt-4">
+                Вы достигли лимита пациентов ({{ $patientsDisplay }} / 5). Продлите подписку, чтобы увидеть всех своих пациентов.
+            </p>
+        @elseif($subscription && $subscription->status === 'inactive')
+            <p class="text-red-500 text-center mt-4">
+                Вы достигли лимита пациентов ({{ $patientsDisplay }} / 5). Купите подписку для увеличения лимита и продолжения работы с пациентами.
+            </p>
+        @endif
+        @if($subscription && $subscription->status === 'canceled')
+            <p class="text-red-500 text-center mt-4">
+                Ваша подписка отменена, и плата не будет взыматься, подписка истечёт {{ \Carbon\Carbon::parse($subscription->expires_at)->format('d.m.Y') }}
+            </p>
+        @endif
+        @if($subscription && $subscription->status === 'active')
+            <p class="text-green-500 text-center mt-4">
+                Ваш лимит пациентов: {{ $patientsDisplay }} / {{ $maxPatients }}.
+            </p>
+        @endif
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const addPatientBtn = document.getElementById('addPatientBtn');
+                const addPatientModal = document.getElementById('addPatientModal');
+                const closeModalBtn = document.getElementById('closeModalBtn');
 
+                // Проверяем, существует ли кнопка
+                if (addPatientBtn) {
+                    // Добавляем обработчик клика
+                    addPatientBtn.addEventListener('click', () => {
+                        addPatientModal.classList.remove('hidden');
+                    });
+                }
 
-
-            <script>
-
-            const addPatientBtn = document.getElementById('addPatientBtn');
-            const addPatientModal = document.getElementById('addPatientModal');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-
-            // Открыть модальное окно
-            addPatientBtn.addEventListener('click', () => {
-                addPatientModal.classList.remove('hidden');
+                // Проверяем, существует ли кнопка для закрытия модалки
+                if (closeModalBtn) {
+                    closeModalBtn.addEventListener('click', () => {
+                        addPatientModal.classList.add('hidden');
+                    });
+                }
             });
-
-            // Закрыть модальное окно
-            closeModalBtn.addEventListener('click', () => {
-                addPatientModal.classList.add('hidden');
-            });
-
-            // Обработка формы добавления пациента
-            document.getElementById('addPatientForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                // Сбор данных формы
-                const fullName = document.getElementById('fullName').value;
-
-                // Логика добавления нового пациента
-                alert(`Пациент добавлен: ${fullName}`);
-
-
-            });
-
-
         </script>
+
     </div>
 @endsection
